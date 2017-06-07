@@ -1,0 +1,64 @@
+Some algorithms to implement and play with to do quick Kolmogorov Complexity and NCD 
+approximations without having to really create the output (compressed) string.
+
+However, we should always compare to state-of-the-art "full" compressors such as
+ZStandard since they are very heavily optimized.
+
+Some algorithms and ideas to play with / try:
+
+- Burrows-Wheeler Transform (BWT)
+    - https://en.wikipedia.org/wiki/Burrows%E2%80%93Wheeler_transform
+    - Advanced ideas in relation to BWT:
+        - https://academic.oup.com/bioinformatics/article/25/14/1754/225615/Fast-and-accurate-short-read-alignment-with
+
+- Huffman Coding (HC)
+
+- Arithmetic Coding (AC)
+    - More flexible version of HC...
+    - https://en.wikipedia.org/wiki/Arithmetic_coding
+    - Ref implementation with explanations: https://www.nayuki.io/page/reference-arithmetic-coding
+    - Mentions the need for Fenwick trees to speed things up
+        - https://en.wikipedia.org/wiki/Fenwick_tree
+        - The Wikipedia page has OSS C implementation so should be straightforward to use
+
+- PPM - Prediction by Partial Matching
+    - Proposed as pre-processing step before applying AC
+    - https://en.wikipedia.org/wiki/Prediction_by_partial_matching
+
+- Standard, "Full" compressor libraries and the algorithms they use:
+    - ZStandard = Lempel-Ziv LZ77 + Finite State Entropy (FSE)
+    - LZFSE = Lempel-Ziv + Finite State Entropy
+    - Blosc, implements a large number of sub-compressors including ZStandard
+
+- Focused on (english) text:
+    - zpaq and others by Matt Mahoney, http://www.mattmahoney.net/dc/
+    - cmix, current (2017-06) leader in text compression benchmark
+
+- Focus on short strings:
+    - shoco, http://ed-von-schleck.github.io/shoco
+    - smaz, similar to shoco but hard coded for short english text strings so probably not relevant
+
+
+Questions to investigate:
+- For Kolmogorov Complexity approximation and for NCD-single (NCDs) and NCD-multiset (NCDm) approximation:
+  - Which compressor / semi-compressor (compression only to estimate length, not to actually output string) to use for different settings? Does it even matter which one to use?
+  - What is a good enough compressor/semi-c to use for typical SBST and SBSE use cases?
+  - How to handle short strings?
+
+- Serizalization
+  - Binary or text serialization?
+
+- Pre-processing
+  - Blosc uses shuffling
+  - BWT also a form of pre-processing
+
+- Approximation methods for NCDm
+  - NCDm is O(N^2) which is very costly.
+  - Are there approximation methods which are better than others for specific use cases?
+
+- How much do results depend on the type of data?
+  - Numerical data types
+  - Strings (non-text)
+  - Text strings
+  - Structured data with different ratios of numerical and string data in it
+  - Source code
