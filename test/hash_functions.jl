@@ -46,4 +46,13 @@ end
 
     @test safe_calc(h, UInt8[7, 4], 1, [0, 1]).v == ((5381 * 33 + 7) * 33 + 4)
     @test safe_calc(h, UInt8[2, 3, 5], 1, [0, 2]).v == ((5381 * 33 + 2) * 33 + 5)
+
+    # Known collisions for DJB2 according to https://softwareengineering.stackexchange.com/questions/49550/which-hashing-algorithm-is-best-for-uniqueness-and-speed
+    @test calc(h, "hetairas").v    == calc(h, "mentioner").v
+    @test calc(h, "heliotropes").v == calc(h, "neurospora").v
+    @test calc(h, "depravement").v == calc(h, "serafins").v
+    @test calc(h, "stylist").v     == calc(h, "subgenera").v
+    @test calc(h, "joyful").v      == calc(h, "synaphea").v
+    @test calc(h, "redescribed").v == calc(h, "urites").v
+    @test calc(h, "dram").v        == calc(h, "vivency").v
 end

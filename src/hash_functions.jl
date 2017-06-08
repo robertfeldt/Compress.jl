@@ -22,7 +22,7 @@ function calc(h::HashFunction, src::Vector{UInt8}, pos::Int, seqlen::Int)
     calc(h, src, pos, idxpattern)
 end
 
-calc(h::HashFunction, s::AbstractString, pos::Int, seqlen::Int) = 
+calc(h::HashFunction, s::AbstractString, pos::Int = 1, seqlen::Int = length(s)) =
     calc(h, convert(Vector{UInt8}, s), pos, seqlen)
 
 calc(h::HashFunction, s::AbstractString, pos::Int, idxdeltas::Vector{Int}) = 
@@ -52,8 +52,7 @@ const DJB2_Magic_Seed = UInt32(5381)
 function calc(h::DJB2_32, src::Vector{UInt8}, pos::Int, idxdeltas::Vector{Int})
     hash = DJB2_Magic_Seed
     for delta in idxdeltas
-        pos += delta
-        hash = ((hash << 5) + hash) + src[pos]
+        hash = ((hash << 5) + hash) + src[pos + delta]
         # hash = hash * 33 + src[pos]
     end
     return HashValue{UInt32}(hash)
