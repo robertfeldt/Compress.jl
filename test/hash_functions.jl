@@ -1,5 +1,5 @@
 using Compress: HashValue, hash
-using Compress: calc, issafe, DJB2_32, SeqLenToIndexDeltas, HashFunction, safe_calc
+using Compress: calc, issafe, DJB2_32, HashFunction, safe_calc, hashtype
 
 @testset "HashValue" begin
     hv = HashValue(10)
@@ -14,6 +14,7 @@ end
 @testset "DJB2_32" begin
     h = DJB2_32()
     @test typeof(h) <: HashFunction
+    @test hashtype(h) == UInt32
 
     @test !issafe(h, UInt8[],      1, 1)
     @test !issafe(h, UInt8[1],     1, 2)
