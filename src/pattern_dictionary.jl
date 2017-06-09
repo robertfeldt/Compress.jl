@@ -9,6 +9,7 @@ type PatternDictionary{HT <: Unsigned, CT <: Unsigned}
     PatternDictionary(ps::Vector{Vector{Int}}, hfn::HashFunction = DJB2_32()) = begin
         @assert length(ps) >= 1
         @assert hashtype(hfn) == HT
+        @assert all(p -> sum(p) >= minbytes(hfn), ps)
         new(ps, hfn, Dict{HashValue{HT}, CT}(), 0)
     end
 end

@@ -46,6 +46,7 @@ end
 # We use djb2 hash function as described on page http://www.cse.yorku.ca/~oz/hash.html
 type DJB2_32 <: HashFunction; end
 hashtype(h::DJB2_32) = UInt32
+minbytes(h::DJB2_32) = 1 # Can hash a single byte
 
 const DJB2_Magic_Seed = UInt32(5381)
 

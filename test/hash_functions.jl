@@ -1,4 +1,4 @@
-using Compress: HashValue, hash
+using Compress: HashValue, hash, minbytes
 using Compress: calc, issafe, DJB2_32, HashFunction, safe_calc, hashtype
 
 @testset "HashValue" begin
@@ -15,6 +15,7 @@ end
     h = DJB2_32()
     @test typeof(h) <: HashFunction
     @test hashtype(h) == UInt32
+    @test minbytes(h) == 1 # It can hash a single byte
 
     @test !issafe(h, UInt8[],      1, 1)
     @test !issafe(h, UInt8[1],     1, 2)
