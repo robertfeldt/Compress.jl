@@ -62,3 +62,6 @@ Questions to investigate:
   - Text strings
   - Structured data with different ratios of numerical and string data in it
   - Source code
+
+- If we need a "better" hash function SipHash might be it but probably way more costly since also secure:
+  - https://github.com/veorq/SipHash/blob/master/siphash.c
